@@ -1,3 +1,8 @@
+#!/usr/bin/env ruby
+# encoding: utf-8
+#
+# Utility to convert Teamviewer connection report to an ical file
+
 require 'icalendar'
 require 'csv'
 require 'active_support/time_with_zone'
