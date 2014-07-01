@@ -35,7 +35,15 @@ CSV.open(filename, 'r:bom|utf-8', csv_options) do |csv|
       e.dtend = icaldate DateTime.parse(row['End'])
 
       e.summary = "#{row['Group']}: #{row['Computer']} (#{row['ID']})"
-      e.description = " Computer: #{row['Computer']}<br> ID: #{row['ID']}<br> Group: #{row['Group']}<br> Start: #{row['Start']}<br> End: #{row['End']}<br> Duration: #{row['Duration']}<br> Notes: #{row['Notes']}"
+      e.description = <<EOD
+Computer: #{row['Computer']}
+ID: #{row['ID']}
+Group: #{row['Group']}
+Start: #{row['Start']}
+End: #{row['End']}
+Duration: #{row['Duration']}
+Notes: #{row['Notes']}"
+EOD
     end
   end
 end
