@@ -7,6 +7,7 @@ require 'icalendar'
 require 'csv'
 require 'active_support/time_with_zone'
 require 'icalendar/tzinfo'
+require 'digest'
 
 filename = ARGV.first
 
@@ -24,10 +25,15 @@ def icaldate(date)
 end
 
 CSV.open(filename, 'r:bom|utf-8', csv_options) do |csv|
+  md5 = Digest::MD5.new
   csv.each do |row|
     cal.event do |e|
+      md5.update "#{row['Start']}+#{row['End']}+#{row['ID']}"
+      e.uid = "#{md5.hexdigest}@tv.conv"
+
       e.dtstart = icaldate DateTime.parse(row['Start'])
       e.dtend = icaldate DateTime.parse(row['End'])
+
       e.summary = "#{row['Group']}: #{row['Computer']} (#{row['ID']})"
       e.description = " Computer: #{row['Computer']}<br> ID: #{row['ID']}<br> Group: #{row['Group']}<br> Start: #{row['Start']}<br> End: #{row['End']}<br> Duration: #{row['Duration']}<br> Notes: #{row['Notes']}"
     end
